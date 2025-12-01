@@ -1,0 +1,23 @@
+print('Please type in integer numbers. Type in 0 to finish.')
+attempt=0
+sum=0
+mean=0
+pos=0
+neg=0
+while True:
+    num=float(input('Number: '))
+    if num==0:
+        break
+    if num!=0:
+        attempt+=1
+        sum+=num
+    if num>0:
+        pos+=1
+    if num<0:
+        neg+=1
+mean=sum/attempt
+print(f'Numbers typed in {attempt}')
+print(f'The sum of the numbers is {sum}')
+print(f'The mean of the numbers is {mean}')
+print(f'Positive numbers {pos}')
+print(f'Negative numbers {neg}')
