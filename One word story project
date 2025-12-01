@@ -1,0 +1,9 @@
+loop=''
+prev=''
+while True:
+    word=input('Please type in a word: ')
+    if word=='end' or prev==word:
+        break
+    loop+= word + ' '
+    prev=word
+print(loop)
