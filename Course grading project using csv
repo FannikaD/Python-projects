@@ -1,0 +1,63 @@
+student=input('Student information: ')
+exercise=input('Exercises completed: ')
+exam=input('Exam points: ')
+names= {}
+with open(student) as students:
+    for line in students:
+        line=line.replace('\n', '')
+        parts = line.split(';')
+        if parts[0]=='id':
+            continue
+        names[parts[0]]=parts[1] + ' ' + parts[2]
+
+points={}
+exec1={}
+with open(exercise) as exercises:
+    for line in exercises:
+        parts= line.split(';')
+        if parts[0]=='id':
+            continue
+        points[parts[0]]= int(((int(parts[1])+int(parts[2])+int(parts[3])+int(parts[4])+int(parts[5])+int(parts[6])+int(parts[7]))/40)*10)
+        exec1[parts[0]]=int(parts[1])+int(parts[2])+int(parts[3])+int(parts[4])+int(parts[5])+int(parts[6])+int(parts[7])
+
+exam1={}
+
+with open(exam) as exams:
+    for line in exams:
+        parts= line.split(';')
+        if parts[0]=='id':
+            continue
+        exam1[parts[0]]=int(parts[1])+int(parts[2])+int(parts[3])
+
+grade={}
+totals={}
+for id in points:
+    if id in exam1:
+        totals[id]=points[id]+exam1[id]
+        grade[id]=points[id]+exam1[id]
+        if grade[id]<15:
+            grade[id]=0
+        elif grade[id]<18 and grade[id]>=15:
+            grade[id]=1
+        elif grade[id]<21 and grade[id]>=18:
+            grade[id]=2
+        elif grade[id]<24 and grade[id]>=21:
+            grade[id]=3
+        elif grade[id]<28 and grade[id]>=24:
+            grade[id]=4
+        elif grade[id]>=28:
+            grade[id]=5
+print('name                          exec_nbr  exec_pts. exm_pts.  tot_pts.  grade')
+for id, name in names.items():
+    if id in grade:
+        grad=grade[id]
+        point=points[id]
+        num=exec1[id]
+        exam0=exam1[id]
+        total=totals[id]
+        if exam0>9 and point!=0:
+            print(f'{name:16}{14*' '}{num}{8*' '}{point}{9*' '}{exam0}{8*' '}{total}{8*' '}{grad}')
+        elif point==10:
+            print(f'{name:16}{14*' '}{num}{8*' '}{point}{8*' '}{exam0}{9*' '}{total}{8*' '}{grad}')
+        else:
+            print(f'{name:16}{14*' '}{num}{8*' '}{point}{9*' '}{exam0}{9*' '}{total}{8*' '}{grad}')
