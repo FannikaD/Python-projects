@@ -1,0 +1,79 @@
+def add_student(database,name:str):
+    database[name]=name
+    return database
+
+def print_student(dictionary, name:str):
+    if name in dictionary:
+        try:
+            values=dictionary[name]
+            course, points = zip(*values)
+            print(f'{name}: ')
+            print(f' {len(values)} completed courses: ')
+            for i in range(0,len(values)):
+                print(f'  {list(course)[i]} {list(points)[i]}')
+            print(f' average grade {(sum(list(points))/len(values))}')
+            return
+        except ValueError:
+            if dictionary.get(name) is not None:
+                print(f'{name}: ')
+                print(' no completed courses')
+    else:
+        print(f'{name}: no such person in the database')
+
+def add_course(database, name: str, course:tuple): 
+    values=database[name]
+    if course[1] == 0:
+        return
+    try:
+        course1, points2 = zip(*values)
+        if course[0] in list(course1):
+            index=list(course1).index(course[0])
+            if course[1]<=list(points2)[index]:
+                return False
+            if course[1]>list(points2)[index]:
+                for tuple in database[name]:
+                    if tuple[0]==course[0]:
+                        database[name].remove(tuple)
+                        try:
+                            database[name].append(course)
+                            return
+                        except AttributeError:
+                            database[name]=[course]
+                            return
+    except ValueError:
+        clist=[course[i:i] for i in range(0,len(course))]
+    try:
+        database[name].append(course)
+    except AttributeError:
+        database[name]=[course]
+
+def summary(dict):
+    student=0
+    b=0
+    best=0
+    for key in dict:
+        val=dict[key]
+        course, points = zip(*val)
+        student+=1
+        if len(dict[key])>b:
+            b=len(dict[key])
+            name=key
+        if (sum(list(points))/len(val))>best:
+            best=(sum(list(points))/len(val))
+            name1=key
+    print(f'students {student}')
+    print(f'most courses completed {b} {name}')
+    print(f'best average grade {best} {name1}')
+    
+
+
+if __name__ == "__main__":
+    students = {}
+    add_student(students, "Peter")
+    add_student(students, "Eliza")
+    add_course(students, "Peter", ("Data Structures and Algorithms", 1))
+    add_course(students, "Peter", ("Introduction to Programming", 1))
+    add_course(students, "Peter", ("Advanced Course in Programming", 1))
+    add_course(students, "Eliza", ("Introduction to Programming", 5))
+    add_course(students, "Eliza", ("Introduction to Computer Science", 4))
+    summary(students)
