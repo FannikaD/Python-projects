@@ -1,6 +1,13 @@
 student=input('Student information: ')
 exercise=input('Exercises completed: ')
 exam=input('Exam points: ')
+course=input('Course: ')
+with open(course) as header:
+    course1=[]
+    for line in header:
+        line= line.replace('\n','')
+        linelist=line.split(':')
+        course1.append(linelist[1].strip())
 names= {}
 with open(student) as students:
     for line in students:
@@ -47,17 +54,29 @@ for id in points:
             grade[id]=4
         elif grade[id]>=28:
             grade[id]=5
-print('name                          exec_nbr  exec_pts. exm_pts.  tot_pts.  grade')
-for id, name in names.items():
-    if id in grade:
-        grad=grade[id]
-        point=points[id]
-        num=exec1[id]
-        exam0=exam1[id]
-        total=totals[id]
-        if exam0>9 and point!=0:
-            print(f'{name:16}{14*' '}{num}{8*' '}{point}{9*' '}{exam0}{8*' '}{total}{8*' '}{grad}')
-        elif point==10:
-            print(f'{name:16}{14*' '}{num}{8*' '}{point}{8*' '}{exam0}{9*' '}{total}{8*' '}{grad}')
-        else:
-            print(f'{name:16}{14*' '}{num}{8*' '}{point}{9*' '}{exam0}{9*' '}{total}{8*' '}{grad}')
+with open('results.txt','w') as result:
+    result.write(f'{course1[0]}, {course1[1]} credits\n')
+    result.write(len(f'{course1[0]}, {course[1]} credits')*'=')
+    result.write('\n')
+    result.write('name                          exec_nbr  exec_pts. exm_pts.  tot_pts.  grade\n')
+    for id, name in names.items():
+        if id in grade:
+            grad=grade[id]
+            point=points[id]
+            num=exec1[id]
+            exam0=exam1[id]
+            total=totals[id]
+            if exam0>9 and point!=0:
+                result.write(f'{name:16}{14*' '}{num}{8*' '}{point}{9*' '}{exam0}{8*' '}{total}{8*' '}{grad}\n')
+            elif point==10:
+                result.write(f'{name:16}{14*' '}{num}{8*' '}{point}{8*' '}{exam0}{9*' '}{total}{8*' '}{grad}\n')
+            elif num<10:
+                result.write(f'{name:16}{14*' '}{num}{9*' '}{point}{9*' '}{exam0}{8*' '}{total}{8*' '}{grad}\n')
+            else:
+                result.write(f'{name:16}{14*' '}{num}{8*' '}{point}{9*' '}{exam0}{9*' '}{total}{8*' '}{grad}\n')
+
+with open('results.csv','w') as listers:
+    for id in grade:
+        listers.write(f'{id};{names[id]};{grade[id]}')
+        listers.write('\n')
+print('Results written to files results.txt and results.csv')
