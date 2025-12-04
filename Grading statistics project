@@ -1,0 +1,71 @@
+# Write your solution here
+def userinput():
+    useri=[]
+    while True:
+        user=input(f"Exam points and exercises completed: ")
+        if user=='':
+            break
+        else:
+            userx=user.split() 
+            useri.append(float(userx[0]))
+            useri.append(float(userx[1])) 
+    return useri
+
+def stat(useri: list):
+    print('Statistics: ')
+    exam=[]
+    exercise=[]
+    for i in range((len(useri)-1)):
+        if i%2!=0:
+            continue
+        exam.append(useri[i])
+        b=i+1
+        exercise.append(useri[b])
+        i+=2
+    points=[]
+    for i in range(0,len(exercise)):
+        exercise[i]= int((exercise[i])/10)
+    Print1=round((((sum(exam))+(sum(exercise)))/(len(exam))), 1)
+    print(f'Points average: {Print1}')
+    for i in range(0,len(exercise)):
+        if exam[i]>=10:
+            points.append(exam[i]+exercise[i])
+        else:
+            points.append(0)
+    return points
+
+def grade(points: list):
+    grade=[]
+    for i in range(0,len(points)):
+        if points[i]<=14:
+            grade.append(0)
+        elif points[i]>=15 and points[i]<=17:
+            grade.append(1)
+        elif points[i]>=18 and points[i]<=20:
+            grade.append(2)
+        elif points[i]>=21 and points[i]<=23:
+            grade.append(3)
+        elif points[i]>=24 and points[i]<=27:
+            grade.append(4)
+        elif points[i]>=28 and points[i]<=30:
+            grade.append(5)
+    sum=0
+    for i in range(0,len(points)):
+        if grade[i]>0:
+            sum+=1
+    Print2=round(((sum/(len(points)))*100), 1)
+    print(f'Pass percentage: {Print2}')
+    print('Grade distribution: ')
+    print(f'  5: {((grade.count(5))*'*')}')
+    print(f'  4: {((grade.count(4))*'*')}')
+    print(f'  3: {((grade.count(3))*'*')}')
+    print(f'  2: {((grade.count(2))*'*')}')
+    print(f'  1: {((grade.count(1))*'*')}')
+    print(f'  0: {((grade.count(0))*'*')}')
+
+def main():
+    a=userinput()
+    b=stat(a)
+    grade(b)
+
+main()
